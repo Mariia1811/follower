@@ -13,6 +13,7 @@ const initialState = {
   cardsList: [],
   isLoading: false,
   error: null,
+  isBtnLoadMoreHidden: false,
 };
 
 const cardsSlice = createSlice({
@@ -28,8 +29,19 @@ const cardsSlice = createSlice({
       .addCase(getAll.pending, handlePending)
       .addCase(getAll.rejected, handleRejected)
       .addCase(getAll.fulfilled, (state, { payload }) => {
-        state.cardsList = payload;
+        state.cardsList = [
+          ...state.cardsList,
+          ...payload.filter(
+            (item) =>
+              !state.cardsList.some(
+                (existingItem) => existingItem.id === item.id
+              )
+          ),
+        ];
         state.isLoading = false;
+        if (payload.length < 3) {
+          state.isBtnLoadMoreHidden = true;
+        }
       })
       .addCase(updateById.pending, handlePending)
       .addCase(updateById.rejected, handleRejected)
