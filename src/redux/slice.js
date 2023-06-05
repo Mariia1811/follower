@@ -18,6 +18,11 @@ const initialState = {
 const cardsSlice = createSlice({
   name: "cards",
   initialState,
+  reducers: {
+    changeList(state, { payload }) {
+      state.cardsList = payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getAll.pending, handlePending)
@@ -33,5 +38,5 @@ const cardsSlice = createSlice({
       });
   },
 });
-
+export const { changeList } = cardsSlice.actions;
 export const cardsReducer = cardsSlice.reducer;

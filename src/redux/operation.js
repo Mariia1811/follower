@@ -19,11 +19,7 @@ export const updateById = createAsyncThunk(
   "cards/updateById",
   async (credentials, thunkAPI) => {
     try {
-      console.log(credentials);
-      const { data } = await axios.put(`tweets/${credentials.id}`, {
-        ...credentials,
-      });
-      console.log(data);
+      const { data } = await axios.put(`tweets/${credentials.id}`, credentials);
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

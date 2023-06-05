@@ -1,20 +1,17 @@
-import Button from "../Button/Button";
-import s from "./CardsList.module.scss";
-
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllList } from "../../redux/selectot";
-import { useEffect, useState } from "react";
 import { updateById } from "../../redux/operation";
+import { changeList } from "../../redux/slice";
 
-function OneCardFollow() {
-  const [tweetsList, settweetsList] = useState(null);
+import Button from "../Button/Button";
+
+import s from "./CardsList.module.scss";
+
+function CardsList() {
   const [updateUser, setUpdateUser] = useState(null);
   const allCards = useSelector(getAllList);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    settweetsList(allCards);
-  }, [allCards]);
 
   useEffect(() => {
     if (updateUser) {
@@ -23,7 +20,7 @@ function OneCardFollow() {
   }, [dispatch, updateUser]);
 
   function handleClick(id) {
-    const updateList = tweetsList.map((item) => {
+    const updateList = allCards.map((item) => {
       if (item.id === id) {
         const newItem = {
           ...item,
@@ -33,48 +30,49 @@ function OneCardFollow() {
         setUpdateUser(newItem);
         return newItem;
       }
-
       return item;
     });
-    settweetsList(updateList);
+    dispatch(changeList(updateList));
   }
 
   return (
-    tweetsList?.length > 0 &&
-    tweetsList.map((item) => {
-      const formattedTweets = Number(item.tweets).toLocaleString();
-      const formattedFollowers = new Intl.NumberFormat("en-US", {
-        style: "decimal",
-      }).format(item.followers);
+    <ul className={s.cardsList}>
+      {allCards?.map((item) => {
+        const formattedFollowers = new Intl.NumberFormat("en-US", {
+          style: "decimal",
+        }).format(item.followers);
 
-      return (
-        <div className={s.cardWrap} key={item.id}>
-          <div className={s.avaWrap}>
-            <img
-              src={item.avatar}
-              className={s.ava}
-              alt="Avatar"
-              width={62}
-              height={62}
-            />
-          </div>
-          <div className={s.cardDiscr}>
-            <p>
-              {formattedTweets}
-              <span> tweets</span>
-            </p>
-            <p>
-              {formattedFollowers}
-              <span> Followers</span>
-            </p>
-          </div>
-          <Button onClick={() => handleClick(item.id)}>
-            {item.follow ? "Following" : "Follow"}
-          </Button>
-        </div>
-      );
-    })
+        return (
+          <li key={item.id}>
+            <div className={s.cardWrap}>
+              <div className={s.avaWrap}>
+                <img
+                  src={item.avatar}
+                  className={s.ava}
+                  alt="Avatar"
+                  width={62}
+                  height={62}
+                />
+              </div>
+              <div className={s.cardDiscr}>
+                <p>
+                  {item.tweets}
+                  <span> tweets</span>
+                </p>
+                <p>
+                  {formattedFollowers}
+                  <span> Followers</span>
+                </p>
+              </div>
+              <Button onClick={() => handleClick(item.id)}>
+                {item.follow ? "Following" : "Follow"}
+              </Button>
+            </div>
+          </li>
+        );
+      })}
+    </ul>
   );
 }
 
-export default OneCardFollow;
+export default CardsList;
