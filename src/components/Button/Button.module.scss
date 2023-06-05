@@ -23,16 +23,14 @@
 
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
 
-  &:hover,
-  &:focus {
+  &:hover {
     background-color: var(--btnBgActive);
   }
 }
 
 .reversColor {
   background-color: var(--btnBgActive);
-  &:hover,
-  &:focus {
-    background-color: var(--btnBg);
+  &:hover {
+    background-color: #5cd3a7aa;
   }
 }
