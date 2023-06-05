@@ -1,5 +1,5 @@
 # Getting Started
-mariia1811.github.io/follower/
+[mariia1811.github.io/follower/](https://mariia1811.github.io/)
 ### `npm start`
 
 Runs the app in the development mode.\
