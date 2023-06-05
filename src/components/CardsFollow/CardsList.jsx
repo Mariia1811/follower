@@ -7,17 +7,39 @@ import { changeList } from "../../redux/slice";
 import Button from "../Button/Button";
 
 import s from "./CardsList.module.scss";
+import { useParams } from "react-router-dom";
 
 function CardsList() {
   const [updateUser, setUpdateUser] = useState(null);
+  const [listFilter, setListFilter] = useState([])
   const allCards = useSelector(getAllList);
+    const { filter } = useParams();
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (updateUser) {
       dispatch(updateById(updateUser));
     }
-  }, [dispatch, updateUser]);
+    setListFilter(allCards)
+  }, [dispatch, updateUser, allCards]);
+
+useEffect(() => {
+  switch (filter) {
+    case 'follow':
+      setListFilter(allCards?.filter(item => !item.follow));
+      break;
+
+    case 'following':
+      setListFilter(allCards?.filter(item => item.follow))
+      break;
+  
+    default:
+      setListFilter(allCards);
+  }
+}, [filter, allCards])
+
+     
+
 
   function handleClick(id) {
     const updateList = allCards.map((item) => {
@@ -37,7 +59,7 @@ function CardsList() {
 
   return (
     <ul className={s.cardsList}>
-      {allCards?.map((item) => {
+      {listFilter?.map((item) => {
         const formattedFollowers = new Intl.NumberFormat("en-US", {
           style: "decimal",
         }).format(item.followers);
