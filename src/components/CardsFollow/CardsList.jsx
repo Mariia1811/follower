@@ -3,43 +3,41 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllList } from "../../redux/selectot";
 import { updateById } from "../../redux/operation";
 import { changeList } from "../../redux/slice";
+import { useParams } from "react-router-dom";
 
 import Button from "../Button/Button";
 
 import s from "./CardsList.module.scss";
-import { useParams } from "react-router-dom";
+
 
 function CardsList() {
   const [updateUser, setUpdateUser] = useState(null);
-  const [listFilter, setListFilter] = useState([])
+  const [listFilter, setListFilter] = useState([]);
   const allCards = useSelector(getAllList);
-    const { filter } = useParams();
+  const { filter } = useParams();
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (updateUser) {
       dispatch(updateById(updateUser));
     }
-    setListFilter(allCards)
+    setListFilter(allCards);
   }, [dispatch, updateUser, allCards]);
 
-useEffect(() => {
-  switch (filter) {
-    case 'follow':
-      setListFilter(allCards?.filter(item => !item.follow));
-      break;
+  useEffect(() => {
+    switch (filter) {
+      case "follow":
+        setListFilter(allCards?.filter((item) => !item.follow));
+        break;
 
-    case 'following':
-      setListFilter(allCards?.filter(item => item.follow))
-      break;
-  
-    default:
-      setListFilter(allCards);
-  }
-}, [filter, allCards])
+      case "following":
+        setListFilter(allCards?.filter((item) => item.follow));
+        break;
 
-     
-
+      default:
+        setListFilter(allCards);
+    }
+  }, [filter, allCards]);
 
   function handleClick(id) {
     const updateList = allCards.map((item) => {

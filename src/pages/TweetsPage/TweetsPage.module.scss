@@ -1,11 +1,11 @@
 .container {
   display: flex;
-  background-image: linear-gradient(
-    to top left,
-    #ae7be3,
-    #5736a3 54.28%,
-    #fbf8ff
-  );
+  justify-content: space-between;
+  min-height: 100vh;
+  min-width: calc(100vw - 20px);
+  height: 100%;
+  width: 100%;
+  padding: 20px;
 }
 
 .header {
@@ -13,8 +13,7 @@
   flex-direction: column;
   gap: 44px;
   width: max-content;
-  padding: 20px;
-  min-width: 130px;
+  min-width: 120px;
 }
 .goBackLink {
   color: var(--btnText);
@@ -26,8 +25,8 @@
 }
 
 .btnfilter {
-  width: 120px;
-  padding: 6px;
+  width: 116px;
+  padding: 4px;
   font-size: 16px;
   text-transform: uppercase;
   color: var(--btnText);

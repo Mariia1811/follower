@@ -1,10 +1,11 @@
-import React from "react";
 import { Link } from "react-router-dom";
+import s from "./HomePage.module.scss"
 
 function HomePage() {
   return (
-    <div>
-      <Link to="/tweets">tweets</Link>
+    <div className={s.container}>
+      <h1 className={s.title}>Following</h1>
+      <Link className={s.link} to="/tweets">Follow</Link>
     </div>
   );
 }
